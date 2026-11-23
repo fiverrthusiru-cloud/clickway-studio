@@ -6,107 +6,173 @@
   <title>Clickway Studio — Graphic Design & Video Editing</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b0b0b'/%3E%3Cpath d='M33 30 L51 50 L33 70 M53 30 L71 50 L53 70' fill='none' stroke='%23ffffff' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card-enter {
+      animation: fadeSlideUp 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    #modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #modal-panel {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+      transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #modal.is-open #modal-panel {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  </style>
 </head>
 <body class="bg-[#09090b] text-zinc-100 antialiased selection:bg-white selection:text-black">
 
-  <!-- Navbar -->
+  <!-- Top Navigation (Melon.studio minimalist editorial bar) -->
   <header class="sticky top-0 z-30 border-b border-white/10 bg-[#09090b]/85 backdrop-blur-md">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
       <a href="#" class="flex items-center gap-3 group">
-        <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-black transition group-hover:border-white/40">
-          <svg class="h-5 w-5 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-black transition-all duration-300 group-hover:scale-105 group-hover:border-white/45">
+          <svg class="h-5 w-5 text-white transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M31 27 L52 50 L31 73 M53 27 L74 50 L53 73" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <span id="brand-name" class="text-base font-bold tracking-wider uppercase text-white">CLICKWAY STUDIO</span>
+        <span class="text-sm font-bold tracking-wider uppercase text-white">CLICKWAY STUDIO</span>
       </a>
 
       <nav class="flex items-center gap-6 text-sm text-zinc-400">
-        <a href="#work" class="hover:text-white transition">Work</a>
-        <a href="#services" class="hover:text-white transition">Services</a>
-        <a href="#contact" class="rounded-full bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-black hover:bg-zinc-200 transition">
-          Order Now
+        <a href="#work" class="hover:text-white transition-colors duration-200">Work</a>
+        <a href="#how-we-work" class="hover:text-white transition-colors duration-200">Process</a>
+        <a href="#contact" class="rounded-full bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 hover:scale-105 hover:bg-zinc-200 active:scale-95">
+          Start a Project
         </a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Banner -->
-  <section class="mx-auto max-w-6xl px-6 pt-10 pb-12">
-    <div class="relative overflow-hidden rounded-3xl border border-white/15 bg-[#0e0e11] p-8 sm:p-14 shadow-2xl">
-      <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-
-      <div class="relative z-10 flex flex-col justify-between gap-10 lg:flex-row lg:items-center">
-        <div class="max-w-2xl">
-          <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/60 px-3.5 py-1 text-xs font-medium text-zinc-300">
-            <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Adobe Creative Cloud Workflow • Fast Turnaround
-          </div>
-
-          <h1 id="hero-title" class="text-3xl font-extrabold tracking-tight text-white sm:text-5xl leading-[1.15]">
-            Logos, flyers, posters, ads & video edits that stand out.
-          </h1>
-          <p id="hero-sub" class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-400">
-            Clickway Studio delivers clean brand identities, tuition class posters, social media creatives, promotional ads, and crisp video edits crafted with Adobe tools.
-          </p>
-
-          <div class="mt-7 flex flex-wrap items-center gap-3">
-            <a href="#work" class="rounded-xl bg-white px-5 py-3 text-sm font-bold text-black hover:bg-zinc-200 transition">
-              View Samples
-            </a>
-            <a href="#contact" class="rounded-xl border border-white/20 bg-black/40 px-5 py-3 text-sm font-semibold text-white hover:border-white/50 transition">
-              Request Design
-            </a>
-          </div>
+  <!-- Hero Section -->
+  <section class="mx-auto max-w-6xl px-6 pt-12 pb-10">
+    <div class="flex flex-col justify-between gap-10 border-b border-white/10 pb-12 lg:flex-row lg:items-end">
+      <div class="max-w-3xl">
+        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3.5 py-1 text-xs font-medium text-zinc-300">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Open for New Projects • Adobe Creative Workflow
         </div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-5xl leading-[1.12]">
+          Logos, flyers, tuition posters, ads & video edits crafted with precision.
+        </h1>
+        <p class="mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-zinc-400">
+          Clickway Studio builds sharp visual identities, promotional banners, social media graphics, and clean video edits designed to help brands and creators stand out.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#work" class="rounded-xl bg-white px-5 py-3 text-sm font-bold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-zinc-200">
+            Selected Work
+          </a>
+          <a href="#contact" class="rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/50">
+            Get in Touch
+          </a>
+        </div>
+      </div>
 
-        <!-- Emblem Showcase -->
-        <div class="flex shrink-0 items-center justify-center">
-          <div class="flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-3xl border border-white/15 bg-black shadow-inner">
-            <svg class="h-20 w-20 sm:h-24 sm:w-24 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M31 27 L52 50 L31 73 M53 27 L74 50 L53 73" stroke="currentColor" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+      <div class="flex shrink-0 items-center justify-start lg:justify-end">
+        <div class="group flex h-32 w-32 sm:h-36 sm:w-36 items-center justify-center rounded-3xl border border-white/15 bg-[#0e0e11] transition-all duration-500 hover:scale-105 hover:border-white/40">
+          <svg class="h-16 w-16 sm:h-20 sm:w-20 text-white transition-transform duration-500 group-hover:translate-x-1" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M31 27 L52 50 L31 73 M53 27 L74 50 L53 73" stroke="currentColor" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Filterable Work Grid -->
+  <!-- Selected Work (Filterable Grid) -->
   <section id="work" class="mx-auto max-w-6xl px-6 py-10">
-    <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-5">
       <div>
-        <h2 class="text-2xl font-bold tracking-tight text-white">Portfolio Works</h2>
-        <p class="text-xs text-zinc-500 mt-1">Filter by category or click a card to view full preview</p>
+        <span class="text-[11px] font-bold uppercase tracking-widest text-zinc-500">Portfolio</span>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-white">Latest Work</h2>
       </div>
       <div id="filters" class="flex flex-wrap gap-2"></div>
     </div>
     <div id="grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
   </section>
 
-  <!-- Services Grid -->
-  <section id="services" class="mx-auto max-w-6xl px-6 py-10">
-    <h2 class="mb-6 text-xl font-bold tracking-tight text-white">What Clickway Studio Does</h2>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6">
-        <span class="text-xs font-bold uppercase tracking-widest text-zinc-500">01</span>
-        <h3 class="mt-2 text-base font-bold text-white">Logo & Brand Design</h3>
-        <p class="mt-1.5 text-xs leading-relaxed text-zinc-400">Sharp logos, avatars, brand marks, and clean visual identities built in Adobe Illustrator & Photoshop.</p>
+  <!-- How We Work (Melon.studio numbered 01-04 structure) -->
+  <section id="how-we-work" class="mx-auto max-w-6xl px-6 py-12">
+    <div class="mb-8 border-b border-white/10 pb-5">
+      <span class="text-[11px] font-bold uppercase tracking-widest text-zinc-500">Workflow</span>
+      <h2 class="mt-1 text-2xl font-bold tracking-tight text-white">How We Work</h2>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25">
+        <span class="text-xs font-bold tracking-widest text-zinc-400">01</span>
+        <h3 class="mt-2 text-base font-bold text-white">Brief & Direction</h3>
+        <p class="mt-2 text-xs leading-relaxed text-zinc-400">Share your goal, target audience, dimensions, and reference style so we lock the right visual direction.</p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6">
-        <span class="text-xs font-bold uppercase tracking-widest text-zinc-500">02</span>
-        <h3 class="mt-2 text-base font-bold text-white">Tuition & Event Posters</h3>
-        <p class="mt-1.5 text-xs leading-relaxed text-zinc-400">Eye-catching tuition class posters, seminar flyers, and banners with clear hierarchy and bold typography.</p>
+      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25">
+        <span class="text-xs font-bold tracking-widest text-zinc-400">02</span>
+        <h3 class="mt-2 text-base font-bold text-white">Concept & Layout</h3>
+        <p class="mt-2 text-xs leading-relaxed text-zinc-400">Clean compositions, typography hierarchy, and motion/edit pacing crafted in Adobe creative tools.</p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6">
-        <span class="text-xs font-bold uppercase tracking-widest text-zinc-500">03</span>
-        <h3 class="mt-2 text-base font-bold text-white">Social Media & Ad Creatives</h3>
-        <p class="mt-1.5 text-xs leading-relaxed text-zinc-400">High-impact social media posts, promotional ad banners, and campaign visuals for digital reach.</p>
+      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25">
+        <span class="text-xs font-bold tracking-widest text-zinc-400">03</span>
+        <h3 class="mt-2 text-base font-bold text-white">Refine Together</h3>
+        <p class="mt-2 text-xs leading-relaxed text-zinc-400">Quick revisions on spacing, colors, copy, and cuts until every detail looks sharp on screen and print.</p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6 sm:col-span-2 lg:col-span-3">
-        <span class="text-xs font-bold uppercase tracking-widest text-zinc-500">04</span>
-        <h3 class="mt-2 text-base font-bold text-white">Video Editing</h3>
-        <p class="mt-1.5 text-xs leading-relaxed text-zinc-400">Clean cuts, smooth transitions, captions, and promotional edits tailored for social media, promos, and creators.</p>
+      <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/25">
+        <span class="text-xs font-bold tracking-widest text-zinc-400">04</span>
+        <h3 class="mt-2 text-base font-bold text-white">Final Delivery</h3>
+        <p class="mt-2 text-xs leading-relaxed text-zinc-400">Crisp high-resolution exports and ready-to-publish files delivered fast for social, print, or video.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities & Tools -->
+  <section class="mx-auto max-w-6xl px-6 py-10">
+    <div class="grid gap-6 rounded-3xl border border-white/10 bg-zinc-900/30 p-7 sm:p-10 lg:grid-cols-2">
+      <div>
+        <span class="text-[11px] font-bold uppercase tracking-widest text-zinc-500">Capabilities</span>
+        <h3 class="mt-1.5 text-xl font-bold text-white">What Clickway Studio Delivers</h3>
+        <ul class="mt-4 space-y-2.5 text-sm text-zinc-300">
+          <li>• Logo Design & Minimalist Brand Marks</li>
+          <li>• Tuition Class Posters & Event Flyers</li>
+          <li>• Social Media Posts & Promotional Ads</li>
+          <li>• Video Editing, Reels & Promo Cuts</li>
+        </ul>
+      </div>
+      <div class="flex flex-col justify-between border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-widest text-zinc-500">Tools & Stack</span>
+          <h3 class="mt-1.5 text-xl font-bold text-white">Adobe Creative Workflow</h3>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-400">
+            Designed and edited using Adobe creative tools with attention to typography, contrast, clean framing, and fast turnaround.
+          </p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-2 text-xs text-zinc-300">
+          <span class="rounded-full border border-white/15 bg-black px-3 py-1">Logo & Identity</span>
+          <span class="rounded-full border border-white/15 bg-black px-3 py-1">Posters & Flyers</span>
+          <span class="rounded-full border border-white/15 bg-black px-3 py-1">Ads & Social</span>
+          <span class="rounded-full border border-white/15 bg-black px-3 py-1">Video Editing</span>
+        </div>
       </div>
     </div>
   </section>
@@ -115,16 +181,16 @@
   <section id="contact" class="mx-auto max-w-6xl px-6 py-12">
     <div class="flex flex-col justify-between gap-6 rounded-3xl border border-white/15 bg-white p-8 text-black md:flex-row md:items-center">
       <div>
-        <h3 class="text-2xl font-extrabold tracking-tight">Have a design or video brief?</h3>
+        <h3 class="text-2xl font-extrabold tracking-tight">Need a design or video edit?</h3>
         <p class="mt-1 text-sm text-zinc-700">
-          WhatsApp: <span id="wa-display" class="font-semibold">078 187 8040</span> • Email: <span id="email-display" class="font-semibold">ytthusiru@icloud.com</span>
+          WhatsApp: <span class="font-semibold">078 187 8040</span> • Email: <span class="font-semibold">ytthusiru@icloud.com</span>
         </p>
       </div>
       <div class="flex flex-wrap gap-3">
-        <a id="whatsapp-link" href="#" target="_blank" class="rounded-xl bg-black px-5 py-3 text-sm font-bold text-white hover:bg-zinc-800 transition">
+        <a id="whatsapp-link" href="#" target="_blank" class="rounded-xl bg-black px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-zinc-800">
           WhatsApp Clickway Studio
         </a>
-        <a id="email-link" href="mailto:ytthusiru@icloud.com" class="rounded-xl border border-black/20 px-5 py-3 text-sm font-bold text-black hover:bg-zinc-100 transition">
+        <a id="email-link" href="mailto:ytthusiru@icloud.com" class="rounded-xl border border-black/20 px-5 py-3 text-sm font-bold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-zinc-100">
           Send Email
         </a>
       </div>
@@ -137,8 +203,8 @@
   </footer>
 
   <!-- Lightbox Modal -->
-  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4 backdrop-blur-sm">
-    <div class="w-full max-w-2xl overflow-hidden rounded-2xl border border-white/15 bg-zinc-950">
+  <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm">
+    <div id="modal-panel" class="w-full max-w-2xl overflow-hidden rounded-2xl border border-white/15 bg-zinc-950 shadow-2xl">
       <img id="modal-img" src="" alt="" class="max-h-[65vh] w-full object-contain bg-black" />
       <div class="p-6 border-t border-white/10">
         <div class="flex items-start justify-between gap-4">
@@ -146,7 +212,7 @@
             <span id="modal-cat" class="text-[11px] font-bold uppercase tracking-widest text-zinc-400"></span>
             <h3 id="modal-title" class="mt-1 text-lg font-bold text-white"></h3>
           </div>
-          <button id="close-modal" class="rounded-lg border border-white/20 px-3 py-1 text-xs font-medium text-white hover:bg-white hover:text-black transition">
+          <button id="close-modal" class="rounded-lg border border-white/20 px-3 py-1 text-xs font-medium text-white transition-all duration-200 hover:bg-white hover:text-black">
             Close
           </button>
         </div>
@@ -156,34 +222,30 @@
   </div>
 
   <script>
-    // === 1. CONTACT DETAILS (UPDATED) ===
     const PROFILE = {
-      brandName: "CLICKWAY STUDIO",
       email: "ytthusiru@icloud.com",
-      whatsappDisplay: "078 187 8040",
       whatsappNumber: "94781878040",
       whatsappText: "Hi Clickway Studio! I would like to inquire about a design / video editing project."
     };
 
-    // === 2. PORTFOLIO ITEMS (උඹේ samples images/ folder එකට දාලා link update කරන්න) ===
     const PROJECTS = [
       {
         title: "Logo & Visual Identity Showcase",
         category: "Logos",
         image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80",
-        description: "Clean logo concepts, icons, and brand marks designed in Adobe Illustrator & Photoshop."
+        description: "Clean logo concepts, icons, and brand marks crafted for strong brand recall."
       },
       {
         title: "Tuition Class & Seminar Poster",
         category: "Tuition Posters",
         image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=900&q=80",
-        description: "High-visibility tuition poster layout with strong headline hierarchy for print and social share."
+        description: "High-visibility tuition poster layout with clear hierarchy for print and social share."
       },
       {
         title: "Flyer & Promotional Ad Design",
         category: "Flyers & Ads",
         image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?auto=format&fit=crop&w=900&q=80",
-        description: "Promotional flyers and ad creatives built to grab attention and drive customer response."
+        description: "Promotional flyers and ad creatives built to capture attention and drive inquiries."
       },
       {
         title: "Social Media Post & Video Edit Reel",
@@ -192,12 +254,8 @@
         description: "Social media campaign graphics and edited video promos made for modern digital channels."
       }
     ];
-    // =========================================================================
 
     document.getElementById("year").textContent = new Date().getFullYear();
-    document.getElementById("brand-name").textContent = PROFILE.brandName;
-    document.getElementById("wa-display").textContent = PROFILE.whatsappDisplay;
-    document.getElementById("email-display").textContent = PROFILE.email;
     document.getElementById("email-link").href = `mailto:${PROFILE.email}`;
     document.getElementById("whatsapp-link").href = `https://wa.me/${PROFILE.whatsappNumber}?text=${encodeURIComponent(PROFILE.whatsappText)}`;
 
@@ -214,10 +272,10 @@
         const btn = document.createElement("button");
         btn.textContent = cat;
         const active = cat === activeCat;
-        btn.className = `rounded-full px-4 py-1.5 text-xs font-semibold transition ${
+        btn.className = `rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 active:scale-95 ${
           active
-            ? "bg-white text-black"
-            : "border border-white/15 bg-zinc-900 text-zinc-400 hover:text-white"
+            ? "bg-white text-black shadow-sm"
+            : "border border-white/15 bg-zinc-900 text-zinc-400 hover:border-white/30 hover:text-white"
         }`;
         btn.onclick = () => {
           activeCat = cat;
@@ -234,12 +292,13 @@
         : PROJECTS.filter(p => p.category === activeCat);
 
       gridEl.innerHTML = "";
-      items.forEach(item => {
+      items.forEach((item, idx) => {
         const card = document.createElement("article");
-        card.className = "group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 transition hover:-translate-y-1 hover:border-white/30";
+        card.className = "card-enter group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/30 hover:bg-zinc-900/70";
+        card.style.animationDelay = `${idx * 65}ms`;
         card.innerHTML = `
           <div class="aspect-[4/3] overflow-hidden bg-black">
-            <img src="${item.image}" alt="${item.title}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            <img src="${item.image}" alt="${item.title}" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
           </div>
           <div class="p-5">
             <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">${item.category}</span>
@@ -249,26 +308,27 @@
         `;
         card.onclick = () => {
           document.getElementById("modal-img").src = item.image;
+          document.getElementById("modal-img").alt = item.title;
           document.getElementById("modal-cat").textContent = item.category;
           document.getElementById("modal-title").textContent = item.title;
           document.getElementById("modal-desc").textContent = item.description;
-          modal.classList.remove("hidden");
-          modal.classList.add("flex");
+          modal.classList.add("is-open");
         };
         gridEl.appendChild(card);
       });
     }
 
-    document.getElementById("close-modal").onclick = () => {
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-    };
+    function closeModal() {
+      modal.classList.remove("is-open");
+    }
+
+    document.getElementById("close-modal").onclick = closeModal;
     modal.onclick = (e) => {
-      if (e.target === modal) {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-      }
+      if (e.target === modal) closeModal();
     };
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
 
     renderFilters();
     renderGrid();
